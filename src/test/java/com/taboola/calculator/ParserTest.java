@@ -32,11 +32,6 @@ public class ParserTest {
     }
 
     @Test
-    void testVariableDefaultZero() {
-        assertEquals(0, parse("x")); // x is not initialized yet, defaults to 0
-    }
-
-    @Test
     void testAddition() {
         assertEquals(7, parse("3 + 4"));
     }

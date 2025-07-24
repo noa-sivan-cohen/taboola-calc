@@ -56,17 +56,12 @@ Where expressions.txt is a text file containing one expression per line.
 
 Since the original assignment didn’t specify every detail, I made the following assumptions:
 
-1. **Whitespace Handling**
-    - Every operator and operand must be separated by spaces.  
-      Example: `"i = 5 + 3"`.  
-      No compact inputs like `"3+4"`.
-    - Lines may contain leading or trailing spaces, which the tokenizer ignores.
+1. **Variables**
+    - Variable names must start with a letter, may include letters, digits, and underscores (_), but cannot end with an underscore.
+      (`abc`, `abc_1`, `Var123` are valid. `_abc`, `abc_` are invalid.).
+    - Undefined variables throws `IllegalArgumentException`.
 
-2. **Variables**
-    - Must start with a letter, followed by letters, digits, or underscores (e.g., `abc_1`).
-    - Undefined variables default to `0` when first referenced.
-
-3. **Operators Supported**
+2. **Operators Supported**
     - Assignments: `=`, `+=`, `-=`
     - Arithmetic: `+`, `-`, `*`, `/`
     - Pre/post increment: `++i`, `i++`
@@ -75,15 +70,15 @@ Since the original assignment didn’t specify every detail, I made the followin
     - **Not allowed (will throw `IllegalArgumentException`):**
         - Triple or chained decrements on literals (e.g., `---i`, `--3`).
 
-4. **Division**
+3. **Division**
     - Integer division only (fractional parts are truncated `7 / 3 = 2`).
     - Division by zero throws `IllegalArgumentException`.
 
-5. **Error Handling**
+4. **Error Handling**
     - Invalid syntax, illegal characters, chained decrements on literals, or division by zero throw `IllegalArgumentException`.
     - The interactive runner (`Main.java`) catches errors and prints messages without stopping the program.
 
-6. **Overflow**
+5. **Overflow** 
     - Calculations will never exceed `Integer.MAX_VALUE`.
     - Overflow handling is not required.
 

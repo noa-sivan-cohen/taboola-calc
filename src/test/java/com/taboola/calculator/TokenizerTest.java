@@ -13,10 +13,14 @@ public class TokenizerTest {
     }
 
     @Test
-    void testIdentifier() {
-        Tokenizer tokenizer = new Tokenizer("foo");
-        assertEquals(TokenType.IDENTIFIER, tokenizer.peek().getType());
-        assertEquals("foo", tokenizer.peek().getText());
+    void testValidIdentifiers() {
+        assertEquals(TokenType.IDENTIFIER, new Tokenizer("abc").peek().getType());
+        assertEquals(TokenType.IDENTIFIER, new Tokenizer("abc_1").peek().getType());
+        assertEquals(TokenType.IDENTIFIER, new Tokenizer("Var123").peek().getType());
+        assertEquals(TokenType.IDENTIFIER, new Tokenizer("x_y2").peek().getType());
+        assertThrows(IllegalArgumentException.class, () -> new Tokenizer("_abc").peek());
+        assertThrows(IllegalArgumentException.class, () -> new Tokenizer("abc_").peek());
+        assertThrows(IllegalArgumentException.class, () -> new Tokenizer("__").peek());
     }
 
     @Test

@@ -109,7 +109,10 @@ public class Parser {
                 String varName = tokenizer.peek().getText();
                 tokenizer.next(); // Consume variable
 
-                int newVal = variables.getOrDefault(varName, 0) + 1;
+                if (!variables.containsKey(varName)) {
+                    throw new IllegalArgumentException("Variable '" + varName + "' is not defined");
+                }
+                int newVal = variables.get(varName) + 1;
                 variables.put(varName, newVal);
                 return newVal; // Pre-increment returns *new* value
 
@@ -121,14 +124,20 @@ public class Parser {
                 }
                 String varDec = tokenizer.peek().getText();
                 tokenizer.next();
-                int newDec = variables.getOrDefault(varDec, 0) - 1;
+                if (!variables.containsKey(varDec)) {
+                    throw new IllegalArgumentException("Variable '" + varDec + "' is not defined");
+                }
+                int newDec = variables.get(varDec) - 1;
                 variables.put(varDec, newDec);
                 return newDec;
 
             case IDENTIFIER:  // Could be plain variable or "i++"
                 tokenizer.next();  // Consume the variable
                 String name = token.getText();
-                int currentVal = variables.getOrDefault(name, 0);
+                if (!variables.containsKey(name)) {
+                    throw new IllegalArgumentException("Variable '" + name + "' is not defined");
+                }
+                int currentVal = variables.get(name);
 
                 // Handle post-increment and post-decrement
                 if (tokenizer.peek().getType() == TokenType.POST_INC) {

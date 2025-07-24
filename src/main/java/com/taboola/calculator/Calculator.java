@@ -55,10 +55,16 @@ public class Calculator {
         if ("=".equals(operator)) {
             newValue = rightValue;
         } else if ("+=".equals(operator)) {
-            int oldValue = variables.getOrDefault(varName, 0);
+            if (!variables.containsKey(varName)) {
+                throw new IllegalArgumentException("Variable '" + varName + "' is not defined");
+            }
+            int oldValue = variables.get(varName);
             newValue = oldValue + rightValue;
         } else { // "-="
-            int oldValue = variables.getOrDefault(varName, 0);
+            if (!variables.containsKey(varName)) {
+                throw new IllegalArgumentException("Variable '" + varName + "' is not defined");
+            }
+            int oldValue = variables.get(varName);
             newValue = oldValue - rightValue;
         }
 

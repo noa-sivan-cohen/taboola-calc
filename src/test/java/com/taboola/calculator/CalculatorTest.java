@@ -18,6 +18,17 @@ class CalculatorTest {
     }
 
     @Test
+    void testUndefinedVariableThrows() {
+        assertThrows(IllegalArgumentException.class, () -> calculator.evaluate("x += 5"));
+    }
+
+    @Test
+    void testParserUndefinedVariable() {
+        Parser parser = new Parser(new Tokenizer("x + 5"), Map.of()); // no x defined
+        assertThrows(IllegalArgumentException.class, parser::parseExpression);
+    }
+
+    @Test
     void testSimpleAssignment() {
         calculator.evaluate("i = 5");
         assertEquals(Map.of("i", 5), calculator.getVariables());
@@ -26,7 +37,7 @@ class CalculatorTest {
     @Test
     public void testDivisionInExpression() {
         Calculator calc = new Calculator();
-        calc.evaluate("x = 20 / 4");
+        calc.evaluate("x=20/4");
         assertEquals(5, calc.getVariables().get("x"));
     }
 
@@ -66,14 +77,6 @@ class CalculatorTest {
         calculator.evaluate("i = 1");
         calculator.evaluate("i += 4");  // i = 1+4 = 5
         assertEquals(5, calculator.getVariables().get("i"));
-    }
-
-    @Test
-    void testCompoundAssignment2() {
-        calculator.evaluate("i = x + 2");
-        calculator.evaluate("j = 10 - 2 * 5 + 2");
-        assertEquals(2, calculator.getVariables().get("i"));
-        assertEquals(2, calculator.getVariables().get("j"));
     }
 
     @Test

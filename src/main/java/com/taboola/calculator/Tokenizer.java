@@ -47,8 +47,14 @@ public class Tokenizer {
         // Identifiers (variables)
         if (Character.isLetter(ch)) {
             StringBuilder sb = new StringBuilder();
-            while (pos < input.length() && Character.isLetterOrDigit(input.charAt(pos))) {
+            while (pos < input.length() &&
+                    (Character.isLetterOrDigit(input.charAt(pos)) || input.charAt(pos) == '_')) {
                 sb.append(input.charAt(pos++));
+            }
+
+            // Disallow identifiers ending with an underscore
+            if (sb.charAt(sb.length() - 1) == '_') {
+                throw new IllegalArgumentException("Invalid variable name: cannot end with underscore (" + sb + ")");
             }
 
             // Look ahead for post-increment (i++)
